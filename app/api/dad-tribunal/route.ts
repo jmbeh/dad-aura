@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
     });
 
     // Return the stream for real-time updates
-    return result.toDataStreamResponse();
+    return result.toTextStreamResponse();
     
   } catch (error) {
     console.error('Dad Tribunal error:', error);
