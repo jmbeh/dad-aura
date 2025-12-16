@@ -17,7 +17,7 @@ A playful, emoji-driven app where my son rates my dad performance in real-time u
 - **🌈 Dynamic UI:** Aura visualization changes color and glow based on your performance
 - **📱 Mobile-First:** Responsive design optimized for dad's phone
 
-## Quick Start
+## 🚀 Quick Start
 
 ### 1. Install dependencies
 
@@ -50,7 +50,7 @@ Open `http://localhost:3000` in your browser.
 
 ---
 
-## How It Works
+## 🎯 How It Works
 
 ### For Son (Aura Giver)
 1. Text dad's phone number from Apple Watch
@@ -95,7 +95,7 @@ npm run lint       # Run ESLint
 npm run type-check # TypeScript validation
 ```
 
-## Environment Variables
+## 🔑 Environment Variables
 
 - **`NEXT_PUBLIC_SUPABASE_URL`** – Supabase project URL
 - **`NEXT_PUBLIC_SUPABASE_ANON_KEY`** – Supabase anonymous key
@@ -103,7 +103,7 @@ npm run type-check # TypeScript validation
 - **`TWILIO_AUTH_TOKEN`** – Twilio authentication token
 - **`TWILIO_PHONE_NUMBER`** – Your Twilio phone number for receiving SMS
 
-## Deployment
+## 🚢 Deployment
 
 Deploy to Vercel (personal account):
 
@@ -121,11 +121,11 @@ Deploy to Vercel (personal account):
 
 ---
 
-## What I Learned
+## 💭 What I Learned
 
 The tech came together quickly—SMS webhook → Supabase real-time → instant dashboard updates. But what surprised me: my son controlling how many times I can "flip" negative scores became the most engaging feature. That power asymmetry created negotiation moments that strengthened our relationship more than the scoring itself.
 
-## What's Next
+## 🔮 What's Next
 
 I'm working on **AI guardrails that go beyond content filtering**—teaching the system when to say no, when to disagree with dad or child, and how to nurture healthy values in both. The tricky part: defining what "right" looks like when parenting decisions aren't black-and-white. Sometimes refusing to change aura points *is* the ethical choice, even when a parent or child asks. Teaching AI to enforce alignment boundaries requires codifying judgment, not just rules.
 

@@ -86,7 +86,14 @@ export default function DadTribunal({ onVerdictSaved }: DadTribunalProps) {
       const jsonMatch = cleanContent.match(/\{[\s\S]*\}/);
 
       if (jsonMatch) {
-        const verdict = JSON.parse(jsonMatch[0]) as Verdict;
+        let verdict: Verdict;
+        try {
+          verdict = JSON.parse(jsonMatch[0]) as Verdict;
+        } catch (parseError) {
+          console.error('Failed to parse verdict JSON:', parseError);
+          setError('Failed to parse the verdict. Please try again.');
+          return;
+        }
         setCurrentVerdict(verdict);
 
         // Auto-save the verdict
