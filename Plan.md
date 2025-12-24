@@ -215,32 +215,96 @@ A playful, emoji-driven way for my son to express his happiness with me (Dad) th
 
 ## Implementation Phases
 
-### Phase 1: Core Dashboard (Week 1)
+### Phase 1: Core Dashboard ✅ COMPLETE
 - Next.js app with Tailwind
 - Supabase setup (DB, auth)
 - Aura score display
 - Basic trend charts (today, 7d, 30d)
 - Activity feed
 
-### Phase 2: SMS Input (Week 1-2)
-- Twilio integration for SMS receiving
+### Phase 2: SMS Input ✅ COMPLETE
+- Vonage integration for SMS receiving
 - Parse emoji + points from text
 - Store events in Supabase
 - Test with real messages
 
-### Phase 3: Polish & Deploy (Week 2)
+### Phase 3: Polish & Deploy ✅ COMPLETE
 - Beautiful UI with animations
 - Color-coded aura states
 - Emoji presets documentation
 - Deploy to Vercel
-- Test end-to-end with son
+- Dad Flip Power feature
+- Flip configuration panel
 
-### Phase 4: Enhancements (Future)
-- Apple Shortcuts + webhook
-- Push notifications
-- Custom emoji mappings
-- Weekly summaries
-- Dad response feature
+### Phase 4: AI Guardrails & Values Alignment (Next - Priority)
+**Goal:** Teach the system when to say no and nurture healthy values
+
+**The Challenge:** Defining what "right" looks like when parenting decisions aren't black-and-white. Goes beyond content filtering to AI alignment—teaching systems to refuse requests that undermine healthy values.
+
+**Tasks:**
+- [ ] Define value framework: what behaviors should system encourage/discourage?
+- [ ] Implement guardrails for manipulative aura patterns (gaming the system)
+- [ ] Build reflection prompts: "Why did you give that aura?" before negative scores
+- [ ] Add cooling-off period for extreme negative scores
+- [ ] Create positive reinforcement nudges (celebrate streaks, milestone acknowledgments)
+- [ ] Implement "dad response" that models healthy communication
+- [ ] Build dispute resolution flow (son disagrees with dad's action → structured conversation)
+- [ ] Test edge cases: what if son tries to "punish" dad unfairly?
+
+**Success Criteria:**
+- System encourages reflection, not just reaction
+- Manipulative patterns detected and redirected constructively
+- Both dad and son feel the system supports healthy communication
+- Guardrails feel supportive, not restrictive
+
+### Phase 5: Apple Watch Integration (Week 5-6)
+**Goal:** Enable quick aura input from Apple Watch
+
+**Tasks:**
+- [ ] Create Apple Shortcuts with webhook
+- [ ] Add watch-optimized emoji picker
+- [ ] Test one-tap aura submission from watch
+- [ ] Create setup guide for son's watch
+- [ ] Add watch source tracking
+
+**Success Criteria:**
+- Son can send aura in <3 seconds from watch
+- No phone needed for quick feedback
+- Shortcuts auto-populate with common emoji
+
+### Phase 5: Enhanced Engagement (Week 5-6)
+**Goal:** Richer communication and context
+
+**Tasks:**
+- [ ] Push notifications for significant aura changes
+- [ ] Dad response/comment feature
+- [ ] Photo attachments to aura events
+- [ ] Voice notes from Apple Watch
+- [ ] Custom emoji point mappings (son configures)
+- [ ] Weekly summary reports (email/SMS)
+
+**Success Criteria:**
+- Real-time dad notifications for big swings
+- Dad can acknowledge/respond to events
+- Photos add context to major moments
+- Weekly summaries show patterns
+
+### Phase 6: Gamification & Insights (Week 7-8)
+**Goal:** Make aura tracking more engaging
+
+**Tasks:**
+- [ ] Aura milestones and achievements
+- [ ] Streak tracking (consecutive positive days)
+- [ ] Best/worst day highlights
+- [ ] Monthly aura report cards
+- [ ] Prediction: "Will dad hit +100 this week?"
+- [ ] Export data to CSV/charts
+
+**Success Criteria:**
+- Milestones celebrate progress
+- Streaks encourage consistency
+- Reports provide actionable insights
+- Data ownership (export capability)
 
 ---
 
