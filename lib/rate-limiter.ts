@@ -93,12 +93,19 @@ export function checkRateLimit(
 }
 
 /**
+ * Rate limit middleware result type
+ */
+export type RateLimitResult = 
+  | { error: true; status: 429; message: string; resetTime: number }
+  | { error: false; remaining: number; resetTime: number };
+
+/**
  * Create rate limit middleware for API routes
  */
 export function createRateLimitMiddleware(config?: Partial<RateLimitConfig>) {
   const finalConfig = { ...DEFAULT_CONFIG, ...config };
   
-  return (request: Request) => {
+  return (request: Request): RateLimitResult => {
     const result = checkRateLimit(request, finalConfig);
     
     if (!result.allowed) {

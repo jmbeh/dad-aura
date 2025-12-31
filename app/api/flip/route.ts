@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
     const status = await getFlipStatus();
     return NextResponse.json<FlipStatusResponse>(status, {
       headers: {
-        'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
+        'X-RateLimit-Remaining': (rateLimitResult.remaining ?? 0).toString(),
       },
     });
   } catch (error) {
@@ -110,7 +110,7 @@ export async function POST(request: NextRequest) {
       message: `Flip successful! ${actualTotal} → ${result.newTotal}`,
     }, {
       headers: {
-        'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
+        'X-RateLimit-Remaining': (rateLimitResult.remaining ?? 0).toString(),
       },
     });
   } catch (error) {

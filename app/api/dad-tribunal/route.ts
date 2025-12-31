@@ -206,8 +206,8 @@ export async function POST(request: NextRequest) {
       status: 200,
       headers: { 
         'Content-Type': 'text/plain',
-        'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
-        'X-RateLimit-Reset': rateLimitResult.resetTime.toString(),
+        'X-RateLimit-Remaining': (rateLimitResult.remaining ?? 0).toString(),
+        'X-RateLimit-Reset': (rateLimitResult.resetTime ?? Date.now()).toString(),
       },
     });
     
