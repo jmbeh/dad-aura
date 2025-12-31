@@ -241,6 +241,28 @@ function getFirstEmoji(str: string): string {
 }
 
 /**
+ * Validate parsed SMS result
+ */
+function validateParsedSMS(parsed: ParsedSMS): boolean {
+  // Validate emoji exists and is not empty
+  if (!parsed.emoji || parsed.emoji.trim().length === 0) {
+    return false;
+  }
+
+  // Validate points are within reasonable bounds (-100 to +100)
+  if (parsed.points < -100 || parsed.points > 100) {
+    return false;
+  }
+
+  // Validate note length (max 500 characters)
+  if (parsed.note && parsed.note.length > 500) {
+    return false;
+  }
+
+  return true;
+}
+
+/**
  * Parse SMS message to extract emoji and points
  * Supports formats:
  * - "🔥 +10" or "🔥 10" → { emoji: '🔥', points: 10 }
@@ -249,38 +271,66 @@ function getFirstEmoji(str: string): string {
  * - "🔥 +10 Great job dad!" → { emoji: '🔥', points: 10, note: 'Great job dad!' }
  */
 export function parseSMS(message: string): ParsedSMS | null {
+  // Input validation
+  if (!message || typeof message !== 'string') {
+    return null;
+  }
+
   const trimmed = message.trim();
   
+  // Reject empty or extremely long messages
+  if (trimmed.length === 0 || trimmed.length > 1000) {
+    return null;
+  }
+  
   // Pattern 1: Number followed by emoji (e.g., "+10 🔥" or "-5 💩")
-  const pattern1 = /^([+-]?\d+)\s*([^\d\s]+)/;
+  const pattern1 = /^([+-]?\d+)\s+([^\d\s]+)/;
   const match1 = trimmed.match(pattern1);
   
   if (match1) {
     const points = parseInt(match1[1], 10);
+    // Validate points is a valid number
+    if (isNaN(points)) {
+      return null;
+    }
     const emoji = getFirstEmoji(match1[2]);
     const remainingText = trimmed.substring(match1[0].length).trim();
     
-    return {
+    const parsed = {
       emoji,
       points,
       note: remainingText || undefined,
     };
+
+    if (validateParsedSMS(parsed)) {
+      return parsed;
+    }
+    return null;
   }
   
   // Pattern 2: Emoji followed by number (e.g., "🔥 +10" or "💩 -5")
-  const pattern2 = /^([^\d\s]+)\s*([+-]?\d+)/;
+  const pattern2 = /^([^\d\s]+)\s+([+-]?\d+)/;
   const match2 = trimmed.match(pattern2);
   
   if (match2) {
     const emoji = getFirstEmoji(match2[1]);
     const points = parseInt(match2[2], 10);
+    // Validate points is a valid number
+    if (isNaN(points)) {
+      return null;
+    }
     const remainingText = trimmed.substring(match2[0].length).trim();
     
-    return {
+    const parsed = {
       emoji,
       points,
       note: remainingText || undefined,
     };
+
+    if (validateParsedSMS(parsed)) {
+      return parsed;
+    }
+    return null;
   }
   
   // Pattern 3: Just emoji (use preset value)
@@ -295,11 +345,15 @@ export function parseSMS(message: string): ParsedSMS | null {
     if (presetPoints !== undefined) {
       const remainingText = trimmed.substring(match3[0].length).trim();
       
-      return {
+      const parsed = {
         emoji,
         points: presetPoints,
         note: remainingText || undefined,
       };
+
+      if (validateParsedSMS(parsed)) {
+        return parsed;
+      }
     }
   }
   

@@ -28,11 +28,12 @@ export default function AuraTrends({ last7Days, last30Days }: AuraTrendsProps) {
     <div className="space-y-6 sm:space-y-8 px-4 sm:px-6 py-6 sm:py-8">
       {/* 7-Day Trend */}
       <section 
-        className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6"
+        className="bg-gradient-to-br from-white to-blue-50 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-xl p-4 sm:p-6 border-2 border-blue-200 dark:border-blue-700 hover-lift hover-glow transition-all duration-300"
         aria-label="Last 7 days trend chart"
       >
-        <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-gray-900 dark:text-white">
-          <span aria-hidden="true">📊 </span>Last 7 Days
+        <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-gray-900 dark:text-white flex items-center gap-2">
+          <span className="animate-bounce-gentle inline-block" aria-hidden="true">📊</span>
+          <span>Last 7 Days</span>
         </h2>
         {/* Screen reader summary */}
         <p className="sr-only">
@@ -84,11 +85,12 @@ export default function AuraTrends({ last7Days, last30Days }: AuraTrendsProps) {
       
       {/* 30-Day Cumulative Trend */}
       <section 
-        className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6"
+        className="bg-gradient-to-br from-white to-green-50 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-xl p-4 sm:p-6 border-2 border-green-200 dark:border-green-700 hover-lift hover-glow transition-all duration-300"
         aria-label="Last 30 days trend chart"
       >
-        <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-gray-900 dark:text-white">
-          <span aria-hidden="true">📈 </span>Last 30 Days
+        <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-gray-900 dark:text-white flex items-center gap-2">
+          <span className="animate-bounce-gentle inline-block" aria-hidden="true">📈</span>
+          <span>Last 30 Days</span>
         </h2>
         {/* Screen reader summary */}
         <p className="sr-only">

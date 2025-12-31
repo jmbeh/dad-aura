@@ -1,9 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 import { parseSMS } from '@/lib/emoji-parser';
+import { createRateLimitMiddleware } from '@/lib/rate-limiter';
 
 // Use Edge runtime for faster cold starts on webhooks
 export const runtime = 'edge';
+
+// Rate limit: 50 SMS per 15 minutes (SMS is less frequent)
+const rateLimitMiddleware = createRateLimitMiddleware({
+  windowMs: 15 * 60 * 1000,
+  maxRequests: 50,
+});
 
 /**
  * POST /api/sms-webhook
@@ -18,6 +25,20 @@ export const runtime = 'edge';
  * Vonage Webhook Docs: https://developer.vonage.com/en/messaging/sms/guides/inbound-sms
  */
 export async function POST(request: NextRequest) {
+  // Check rate limit
+  const rateLimitResult = rateLimitMiddleware(request);
+  if (rateLimitResult.error) {
+    // Still return 200 to Vonage to acknowledge receipt, but log the rate limit
+    console.warn('Rate limit exceeded for SMS webhook');
+    return NextResponse.json(
+      { 
+        status: 'rate_limited',
+        message: 'Too many requests. Please try again later.',
+      },
+      { status: 200 } // Vonage expects 200 OK
+    );
+  }
+
   try {
     // Vonage sends JSON by default
     const body = await request.json();

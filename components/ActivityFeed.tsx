@@ -12,13 +12,15 @@ export default function ActivityFeed({ events }: ActivityFeedProps) {
   if (events.length === 0) {
     return (
       <div className="px-4 sm:px-6 py-6 sm:py-8">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 sm:p-8 text-center">
-          <div className="text-5xl sm:text-6xl mb-4" role="img" aria-label="No events yet">🤷</div>
-          <h3 className="text-lg sm:text-xl font-semibold text-gray-700 dark:text-gray-300">
-            No aura events yet
+        <div className="bg-gradient-to-br from-white to-purple-50 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-xl p-6 sm:p-8 text-center border-2 border-purple-200 dark:border-purple-700">
+          <div className="text-5xl sm:text-6xl mb-4 animate-bounce-gentle inline-block" role="img" aria-label="No events yet">🤷</div>
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-700 dark:text-gray-300 flex items-center justify-center gap-2">
+            <span>No aura events yet</span>
+            <span className="animate-wiggle inline-block" role="img" aria-hidden="true">😊</span>
           </h3>
-          <p className="text-gray-600 dark:text-gray-400 mt-2 text-sm sm:text-base">
-            Send your first emoji to get started!
+          <p className="text-gray-600 dark:text-gray-400 mt-2 text-sm sm:text-base flex items-center justify-center gap-1">
+            <span>Send your first emoji to get started!</span>
+            <span className="animate-bounce-gentle inline-block" role="img" aria-hidden="true">📱</span>
           </p>
         </div>
       </div>
@@ -32,9 +34,10 @@ export default function ActivityFeed({ events }: ActivityFeedProps) {
   
   return (
     <section className="px-4 sm:px-6 py-6 sm:py-8" aria-label="Recent aura activity">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6">
-        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gray-900 dark:text-white">
-          <span aria-hidden="true">🎯 </span>Recent Activity
+      <div className="bg-gradient-to-br from-white to-indigo-50 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-xl p-4 sm:p-6 border-2 border-indigo-200 dark:border-indigo-700 hover-glow transition-all duration-300">
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gray-900 dark:text-white flex items-center gap-2">
+          <span className="animate-bounce-gentle inline-block" aria-hidden="true">🎯</span>
+          <span>Recent Activity</span>
         </h2>
         
         <ul className="space-y-3 sm:space-y-4" role="list" aria-label="Aura events">
@@ -48,17 +51,22 @@ export default function ActivityFeed({ events }: ActivityFeedProps) {
               <li
                 key={event.id}
                 className={`
-                  flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-lg transition-colors
+                  flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-lg transition-all duration-300
+                  hover-lift hover-glow
                   ${isFlip 
-                    ? 'bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/40 dark:to-pink-900/40 border-2 border-purple-400 dark:border-purple-500' 
-                    : 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    ? 'bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/40 dark:to-pink-900/40 border-2 border-purple-400 dark:border-purple-500 shadow-lg' 
+                    : event.points > 0
+                    ? 'bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-2 border-green-200 dark:border-green-700'
+                    : event.points < 0
+                    ? 'bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-900/20 dark:to-orange-900/20 border-2 border-red-200 dark:border-red-700'
+                    : 'bg-gray-100 dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600'
                   }
                 `}
                 aria-label={`${event.emoji} ${pointsLabel}, ${formatDistanceToNow(new Date(event.timestamp), { addSuffix: true })}${event.note ? `, note: ${event.note}` : ''}`}
               >
                 {/* Emoji */}
                 <span 
-                  className="text-3xl sm:text-4xl flex-shrink-0"
+                  className={`text-3xl sm:text-4xl flex-shrink-0 transition-transform duration-300 hover:scale-125 hover:rotate-12 ${event.points > 0 ? 'animate-bounce-gentle' : ''}`}
                   role="img" 
                   aria-hidden="true"
                 >
