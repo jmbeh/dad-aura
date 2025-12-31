@@ -98,7 +98,7 @@ Working on **AI guardrails that go beyond content filtering**—teaching the sys
 <summary><strong>📚 Development Notes</strong></summary>
 
 - See `CLAUDE.md` for detailed technical setup and development commands.
-- See `Plan.md` for detailed product requirements and architecture decisions.
+- See `PLAN.md` for detailed product requirements and architecture decisions.
 - See `BUILD_LOG.md` for chronological progress.
 
 </details>
@@ -106,3 +106,177 @@ Working on **AI guardrails that go beyond content filtering**—teaching the sys
 ---
 
 **Status:** Active Development | **Purpose:** Personal learning and portfolio project
+
+---
+
+## 📱 Emoji Guide for Your Son
+
+<!-- Merged from EMOJI_GUIDE.md on 2025-01-XX -->
+
+Quick reference for your son to know which emoji to use!
+
+### 🔥 Positive Vibes (Earn Dad Points!)
+
+| Emoji | Points | When to Use |
+|-------|--------|-------------|
+| 🔥 | +10 | Awesome dad moment |
+| 🎉 | +15 | Epic dad win! |
+| ❤️ | +5 | Love you dad |
+| 🌟 | +8 | You're shining today |
+| 💪 | +7 | Strong dad energy |
+| 👍 | +3 | Good job, dad |
+| ⚡ | +25 | LEGENDARY move! |
+| 🎯 | +20 | Bullseye, perfect! |
+
+### 💩 Negative Vibes (Dad Needs to Step Up)
+
+| Emoji | Points | When to Use |
+|-------|--------|-------------|
+| 💩 | -5 | Mild disappointment |
+| 😤 | -8 | I'm annoyed |
+| 👎 | -3 | Not cool, dad |
+| 😡 | -10 | Dad fail |
+| 🙄 | -4 | Seriously? |
+| 💔 | -12 | Really hurt my feelings |
+
+### 🤷 Neutral
+
+| Emoji | Points | When to Use |
+|-------|--------|-------------|
+| 🤷 | 0 | Meh, whatever |
+
+### How to Send from Apple Watch
+
+**Method 1: Text Message (Easiest!)**
+1. Open Messages on your watch
+2. Select Dad's contact
+3. Dictate or scribble your message:
+   - "🔥 +10" or just "🔥"
+   - "💩 -5" or just "💩"
+   - Add a note: "🔥 +10 Great pancakes!"
+
+**Method 2: Custom Points**
+Want to give MORE or LESS points? Just add the number:
+- "🔥 +20" (double awesome!)
+- "💩 -10" (extra disappointed)
+- "⚡ +50" (ULTRA legendary)
+
+### Examples
+
+**Good Examples ✅**
+- "🔥" → +10 points (uses preset)
+- "🔥 +10" → +10 points
+- "+15 🎉" → +15 points
+- "🔥 +10 Made amazing pancakes!" → +10 points with note
+- "💩 -5 Forgot to pick me up" → -5 points with note
+
+**Won't Work ❌**
+- "fire" (use emoji, not words)
+- "ten points" (use numbers)
+- Random text without emoji
+
+### Aura Levels
+
+- **200+** 🏆 Legendary Dad
+- **100-199** ⭐ Epic Dad
+- **50-99** 🔥 Great Dad
+- **1-49** 👍 Good Dad
+- **0** 🤷 Neutral
+- **-1 to -49** 😬 Dad Needs Work
+- **-50 to -99** 😤 Dad in Trouble
+- **-100 or less** 💔 Dad Emergency!
+
+---
+
+## 🔄 Dad Flip Feature
+
+<!-- Merged from FLIP_FEATURE.md on 2025-01-XX -->
+
+The **Dad Flip** is a fun power dynamic feature that lets dad reverse his aura score, but with limits controlled by his son!
+
+### How It Works
+
+**The Power:**
+- Dad can **flip** his aura total from negative to positive (or vice versa)
+- Example: If aura is `-200`, dad can flip it to `+200`
+- Example: If aura is `+150`, dad can flip it to `-150`
+
+**The Catch:**
+- **Son controls the limits!** 
+- Default: Dad gets **2 flips per day**
+- Son can increase or decrease this limit (0-10 flips)
+- Flips reset daily at midnight
+
+**For Dad:**
+1. Open the dashboard
+2. Look for the **🔄 Dad Flip Power** section
+3. See your current total and what it would flip to
+4. Click **"🔄 Flip Now"** if you have flips remaining
+5. Watch your aura reverse instantly!
+
+**For Son:**
+1. Open the dashboard
+2. Find **⚙️ Son's Control Panel** (click to expand)
+3. Use the slider to set max flips per day (0-10)
+4. Click **"Save Changes"**
+5. Dad's flip limit updates immediately!
+
+**Power Levels:**
+- **0 flips:** 😈 Dad has NO flip power!
+- **1 flip:** 😏 Dad gets 1 flip per day
+- **2 flips:** 😊 Dad gets 2 flips per day (default)
+- **3-5 flips:** 😇 Dad gets some extra flips
+- **6-10 flips:** 🤯 Dad has UNLIMITED power!
+
+Flip events show up in the activity feed with special purple gradient styling and "DAD FLIP!" label.
+
+---
+
+## 🚀 Next Steps
+
+<!-- Merged from NEXT_STEPS.md on 2025-01-XX -->
+
+### Immediate Setup
+
+1. **Set Up Supabase** (5 minutes)
+   - Create account at https://supabase.com
+   - Create new project
+   - Run `supabase/schema.sql` in SQL Editor
+   - Copy URL and anon key to `.env.local`
+
+2. **Test Locally** (2 minutes)
+   ```bash
+   npm run dev
+   ```
+   Open http://localhost:3000
+
+3. **Add Test Data** (1 minute)
+   ```bash
+   curl -X POST http://localhost:3000/api/aura \
+     -H "Content-Type: application/json" \
+     -d '{"emoji":"🔥","points":10,"source":"web","note":"Test event"}'
+   ```
+
+4. **Deploy to Vercel** (5 minutes)
+   - Push to GitHub
+   - Import repository in Vercel
+   - Add environment variables
+   - Deploy!
+
+### Customization Ideas
+
+**Easy Wins:**
+- Change color scheme in `tailwind.config.js`
+- Add more emoji presets in `lib/emoji-parser.ts`
+- Customize aura level labels
+
+**Medium Effort:**
+- Create Apple Shortcuts for watch input
+- Add push notifications when aura changes
+- Create weekly summary emails
+
+**Advanced:**
+- Multiple kids tracking same dad
+- Photo attachments to aura events
+- Voice notes from Apple Watch
+- Aura milestones and achievements
