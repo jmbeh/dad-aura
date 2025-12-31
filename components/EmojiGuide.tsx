@@ -20,19 +20,20 @@ export default function EmojiGuide() {
 
   return (
     <section className="px-4 sm:px-6 py-3 sm:py-4" aria-label="Emoji guide for aura points">
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+      <div className="bg-gradient-to-br from-white to-purple-50 dark:from-gray-800 dark:to-gray-900 rounded-xl shadow-xl overflow-hidden border-2 border-purple-200 dark:border-purple-700 hover-glow transition-all duration-300">
         {/* Header - Always visible */}
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full px-4 sm:px-6 py-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors focus:ring-2 focus:ring-purple-500 focus:ring-inset"
+          className="w-full px-4 sm:px-6 py-4 flex items-center justify-between hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-all duration-300 focus:ring-2 focus:ring-purple-500 focus:ring-inset hover-lift"
           aria-expanded={isExpanded}
           aria-controls="emoji-guide-content"
         >
           <div className="flex items-center gap-2 sm:gap-3">
-            <span className="text-xl sm:text-2xl" role="img" aria-hidden="true">📱</span>
+            <span className="text-xl sm:text-2xl animate-bounce-gentle inline-block" role="img" aria-hidden="true">📱</span>
             <div className="text-left">
-              <h2 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white">
-                Emoji Guide
+              <h2 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white flex items-center gap-1">
+                <span>Emoji Guide</span>
+                <span className="animate-sparkle inline-block" role="img" aria-hidden="true">✨</span>
               </h2>
               <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                 Text these emojis to update Dad&apos;s aura
@@ -40,7 +41,7 @@ export default function EmojiGuide() {
             </div>
           </div>
           <span 
-            className={`text-xl sm:text-2xl transition-transform duration-200 text-gray-600 dark:text-gray-400 ${isExpanded ? 'rotate-180' : ''}`}
+            className={`text-xl sm:text-2xl transition-transform duration-300 text-purple-600 dark:text-purple-400 ${isExpanded ? 'rotate-180' : ''}`}
             aria-hidden="true"
           >
             ▼
@@ -75,11 +76,11 @@ export default function EmojiGuide() {
                     {tier.emojis.map((preset) => (
                       <div
                         key={preset.emoji}
-                        className="group relative flex items-center gap-1 bg-gray-100 dark:bg-gray-700 rounded-lg px-1.5 sm:px-2 py-1 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors cursor-default"
+                        className="group relative flex items-center gap-1 bg-white dark:bg-gray-700 rounded-lg px-1.5 sm:px-2 py-1 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-all duration-300 cursor-default hover-lift border border-purple-200 dark:border-purple-700 shadow-sm hover:shadow-md"
                         role="listitem"
                         aria-label={`${preset.label}: ${preset.points > 0 ? 'plus' : preset.points < 0 ? 'minus' : ''} ${Math.abs(preset.points)} points`}
                       >
-                        <span className="text-lg sm:text-xl" role="img" aria-hidden="true">{preset.emoji}</span>
+                        <span className={`text-lg sm:text-xl transition-transform duration-300 group-hover:scale-125 group-hover:rotate-12 ${preset.points > 0 ? 'group-hover:animate-bounce-gentle' : ''}`} role="img" aria-hidden="true">{preset.emoji}</span>
                         <span 
                           className={`text-xs font-bold ${preset.points > 0 ? 'text-green-700 dark:text-green-400' : preset.points < 0 ? 'text-red-700 dark:text-red-400' : 'text-gray-600 dark:text-gray-400'}`}
                           aria-hidden="true"

@@ -82,18 +82,28 @@ export default function DadFlipButton({ currentTotal, onFlipSuccess }: DadFlipBu
 
   return (
     <section className="px-4 sm:px-6 py-3 sm:py-4" aria-label="Dad flip power">
-      <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg shadow-lg p-4 sm:p-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-4">
+      <div className="bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600 rounded-xl shadow-2xl p-4 sm:p-6 relative overflow-hidden hover-glow">
+        {/* Animated background decorations */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+          <div className="absolute top-2 left-4 text-3xl animate-float" style={{ animationDelay: '0s' }}>🔄</div>
+          <div className="absolute bottom-2 right-4 text-2xl animate-float" style={{ animationDelay: '1s' }}>✨</div>
+          <div className="absolute top-1/2 left-1/4 text-2xl animate-sparkle" style={{ animationDelay: '0.5s' }}>⭐</div>
+        </div>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-4 relative z-10">
           <div>
-            <h3 className="text-lg sm:text-xl font-bold text-white drop-shadow-sm mb-1">
-              <span aria-hidden="true">🔄 </span>Dad Flip Power
+            <h3 className="text-lg sm:text-xl font-bold text-white drop-shadow-lg mb-1 flex items-center gap-2">
+              <span className="animate-wiggle inline-block" aria-hidden="true">🔄</span>
+              <span>Dad Flip Power</span>
             </h3>
-            <p className="text-white/95 text-sm drop-shadow-sm">
-              Flip your aura from {currentTotal} to {flippedTotal}
+            <p className="text-white/95 text-sm drop-shadow-sm flex items-center gap-1">
+              <span>Flip your aura from</span>
+              <span className="font-bold text-white">{currentTotal}</span>
+              <span className="animate-bounce-gentle inline-block">→</span>
+              <span className="font-bold text-white">{flippedTotal}</span>
             </p>
           </div>
           <div className="text-left sm:text-right">
-            <div className="text-2xl sm:text-3xl font-bold text-white drop-shadow-sm">
+            <div className="text-2xl sm:text-3xl font-bold text-white drop-shadow-lg animate-bounce-gentle">
               {flipStatus.flipsRemainingToday}
             </div>
             <div className="text-white/95 text-xs drop-shadow-sm">
@@ -119,10 +129,10 @@ export default function DadFlipButton({ currentTotal, onFlipSuccess }: DadFlipBu
           disabled={!flipStatus.canFlip || isFlipping}
           className={`
             w-full py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg font-bold text-base sm:text-lg
-            transition-all duration-300 transform
+            transition-all duration-300 transform relative overflow-hidden
             focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-purple-500
             ${flipStatus.canFlip && !isFlipping
-              ? 'bg-white text-purple-700 hover:bg-purple-50 hover:scale-[1.02] active:scale-[0.98] shadow-lg'
+              ? 'bg-white text-purple-700 hover:bg-purple-50 hover:scale-[1.05] active:scale-[0.95] shadow-xl hover:shadow-2xl hover:shadow-purple-500/50'
               : 'bg-gray-400 text-gray-700 cursor-not-allowed opacity-60'
             }
           `}
@@ -130,13 +140,20 @@ export default function DadFlipButton({ currentTotal, onFlipSuccess }: DadFlipBu
         >
           {isFlipping ? (
             <span className="flex items-center justify-center gap-2">
-              <span className="animate-spin" aria-hidden="true">🔄</span>
-              Flipping...
+              <span className="animate-spin text-2xl" aria-hidden="true">🔄</span>
+              <span>Flipping...</span>
             </span>
           ) : flipStatus.canFlip ? (
-            `🔄 Flip Now (${currentTotal} → ${flippedTotal})`
+            <span className="flex items-center justify-center gap-2">
+              <span className="animate-wiggle inline-block" aria-hidden="true">🔄</span>
+              <span>Flip Now</span>
+              <span className="font-mono">({currentTotal} → {flippedTotal})</span>
+            </span>
           ) : (
-            `No Flips Remaining (${flipStatus.flipsUsedToday}/${flipStatus.maxFlipsPerDay} used)`
+            <span className="flex items-center justify-center gap-2">
+              <span aria-hidden="true">😅</span>
+              <span>No Flips Remaining ({flipStatus.flipsUsedToday}/{flipStatus.maxFlipsPerDay} used)</span>
+            </span>
           )}
         </button>
 

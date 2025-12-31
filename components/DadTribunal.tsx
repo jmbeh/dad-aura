@@ -132,20 +132,30 @@ export default function DadTribunal({ onVerdictSaved }: DadTribunalProps) {
       className="px-4 sm:px-6 py-6 sm:py-8"
       aria-label="The Dad Tribunal - AI Judge"
     >
-      <div className="bg-gradient-to-br from-amber-900 via-amber-800 to-yellow-900 rounded-xl shadow-2xl overflow-hidden border-4 border-amber-600">
+      <div className="bg-gradient-to-br from-amber-900 via-amber-800 to-yellow-900 rounded-xl shadow-2xl overflow-hidden border-4 border-amber-600 relative hover-glow transition-all duration-300">
+        {/* Animated background decorations */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+          <div className="absolute top-4 left-8 text-4xl animate-float" style={{ animationDelay: '0s' }}>⚖️</div>
+          <div className="absolute top-4 right-8 text-3xl animate-float" style={{ animationDelay: '1s' }}>👨‍⚖️</div>
+          <div className="absolute bottom-4 left-1/4 text-2xl animate-sparkle" style={{ animationDelay: '0.5s' }}>✨</div>
+          <div className="absolute bottom-4 right-1/4 text-2xl animate-sparkle" style={{ animationDelay: '1.5s' }}>⭐</div>
+        </div>
         {/* Header */}
-        <div className="bg-gradient-to-r from-amber-700 to-yellow-700 px-4 sm:px-6 py-4 sm:py-5 text-center border-b-4 border-amber-600">
-          <div className="text-3xl sm:text-4xl mb-2" role="img" aria-label="Gavel">
+        <div className="bg-gradient-to-r from-amber-700 to-yellow-700 px-4 sm:px-6 py-4 sm:py-5 text-center border-b-4 border-amber-600 relative z-10">
+          <div className="text-3xl sm:text-4xl mb-2 animate-wiggle inline-block" role="img" aria-label="Gavel">
             ⚖️
           </div>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white drop-shadow-lg">
-            The Dad Tribunal
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white drop-shadow-lg flex items-center justify-center gap-2">
+            <span>The Dad Tribunal</span>
+            <span className="animate-bounce-gentle inline-block" role="img" aria-hidden="true">👨‍⚖️</span>
           </h2>
-          <p className="text-amber-100 text-sm sm:text-base mt-1 drop-shadow">
-            Tell us how Dad performed today. We shall judge.
+          <p className="text-amber-100 text-sm sm:text-base mt-1 drop-shadow flex items-center justify-center gap-1">
+            <span>Tell us how Dad performed today. We shall judge.</span>
+            <span className="animate-wiggle inline-block" role="img" aria-hidden="true">🔨</span>
           </p>
-          <p className="text-amber-200/80 text-xs mt-2">
-            🛡️ All verdicts are reviewed for safety
+          <p className="text-amber-200/80 text-xs mt-2 flex items-center justify-center gap-1">
+            <span>🛡️</span>
+            <span>All verdicts are reviewed for safety</span>
           </p>
           {messages.length > 0 && (
             <button
@@ -156,9 +166,10 @@ export default function DadTribunal({ onVerdictSaved }: DadTribunalProps) {
                 setCurrentVerdict(null);
                 setShowSavedMessage(false);
               }}
-              className="mt-3 text-xs px-3 py-1.5 bg-amber-600/50 hover:bg-amber-600 text-white rounded-full transition-colors"
+              className="mt-3 text-xs px-3 py-1.5 bg-amber-600/50 hover:bg-amber-600 text-white rounded-full transition-all duration-300 hover-lift flex items-center gap-1 mx-auto"
             >
-              🔄 New Chat Session
+              <span className="animate-wiggle inline-block">🔄</span>
+              <span>New Chat Session</span>
             </button>
           )}
         </div>
@@ -181,10 +192,10 @@ export default function DadTribunal({ onVerdictSaved }: DadTribunalProps) {
                   className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`max-w-[85%] rounded-lg p-3 sm:p-4 ${
+                    className={`max-w-[85%] rounded-lg p-3 sm:p-4 transition-all duration-300 hover-lift ${
                       message.role === 'user'
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-amber-100 text-amber-900'
+                        ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg'
+                        : 'bg-gradient-to-r from-amber-100 to-yellow-100 text-amber-900 shadow-lg'
                     }`}
                   >
                     {message.role === 'assistant' ? (
@@ -249,14 +260,18 @@ export default function DadTribunal({ onVerdictSaved }: DadTribunalProps) {
             <button
               type="submit"
               disabled={isLoading || !input.trim()}
-              className="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded-lg transition-colors focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+              className="bg-gradient-to-r from-amber-600 to-yellow-600 hover:from-amber-700 hover:to-yellow-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap shadow-lg hover:shadow-xl hover:scale-105 active:scale-95"
             >
               {isLoading ? (
                 <span className="flex items-center gap-2">
-                  <span className="animate-spin">⚖️</span> Judging...
+                  <span className="animate-spin text-xl">⚖️</span> 
+                  <span>Judging...</span>
                 </span>
               ) : (
-                '⚖️ Submit for Judgment'
+                <span className="flex items-center gap-2">
+                  <span className="animate-wiggle inline-block">⚖️</span>
+                  <span>Submit for Judgment</span>
+                </span>
               )}
             </button>
           </form>

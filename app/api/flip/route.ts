@@ -1,15 +1,41 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { performFlip, getFlipStatus } from '@/lib/flip-manager';
 import { supabase } from '@/lib/supabase';
+import { createRateLimitMiddleware } from '@/lib/rate-limiter';
+import type { FlipStatusResponse, FlipResponse } from '@/types/api';
+
+// Rate limit: 30 requests per 15 minutes
+const rateLimitMiddleware = createRateLimitMiddleware({
+  windowMs: 15 * 60 * 1000,
+  maxRequests: 30,
+});
 
 /**
  * GET /api/flip
  * Get flip status (can dad flip today?)
  */
-export async function GET() {
+export async function GET(request: NextRequest) {
+  // Check rate limit
+  const rateLimitResult = rateLimitMiddleware(request);
+  if (rateLimitResult.error) {
+    return NextResponse.json(
+      { error: rateLimitResult.message },
+      { 
+        status: 429,
+        headers: {
+          'Retry-After': Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000).toString(),
+        },
+      }
+    );
+  }
+
   try {
     const status = await getFlipStatus();
-    return NextResponse.json(status);
+    return NextResponse.json<FlipStatusResponse>(status, {
+      headers: {
+        'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
+      },
+    });
   } catch (error) {
     console.error('Error getting flip status:', error);
     return NextResponse.json(
@@ -25,6 +51,20 @@ export async function GET() {
  * Body: { currentTotal: number }
  */
 export async function POST(request: NextRequest) {
+  // Check rate limit
+  const rateLimitResult = rateLimitMiddleware(request);
+  if (rateLimitResult.error) {
+    return NextResponse.json(
+      { error: rateLimitResult.message },
+      { 
+        status: 429,
+        headers: {
+          'Retry-After': Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000).toString(),
+        },
+      }
+    );
+  }
+
   try {
     const body = await request.json();
     const { currentTotal } = body;
@@ -63,11 +103,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({
+    return NextResponse.json<FlipResponse>({
       success: true,
       previousTotal: actualTotal,
-      newTotal: result.newTotal,
+      newTotal: result.newTotal!,
       message: `Flip successful! ${actualTotal} → ${result.newTotal}`,
+    }, {
+      headers: {
+        'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
+      },
     });
   } catch (error) {
     console.error('Error performing flip:', error);

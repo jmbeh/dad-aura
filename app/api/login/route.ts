@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import type { LoginResponse } from '@/types/api';
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,7 +15,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (password === correctPassword) {
-      const response = NextResponse.json({ success: true });
+      const response = NextResponse.json<LoginResponse>({ success: true });
       
       // Set auth cookie - expires in 30 days
       response.cookies.set('dad-aura-auth', 'authenticated', {
@@ -28,8 +29,8 @@ export async function POST(request: NextRequest) {
       return response;
     }
 
-    return NextResponse.json(
-      { error: 'Invalid password' },
+    return NextResponse.json<LoginResponse>(
+      { success: false, error: 'Invalid password' },
       { status: 401 }
     );
   } catch (error) {

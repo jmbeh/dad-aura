@@ -60,25 +60,32 @@ export default function FlipConfigPanel() {
 
   return (
     <section className="px-4 sm:px-6 py-3 sm:py-4" aria-label="Son's control panel for flip settings">
-      <div className="bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg shadow-lg overflow-hidden">
+      <div className="bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-600 rounded-xl shadow-xl overflow-hidden relative hover-glow transition-all duration-300">
+        {/* Animated background decorations */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+          <div className="absolute top-2 right-4 text-3xl animate-float" style={{ animationDelay: '0s' }}>⚙️</div>
+          <div className="absolute bottom-2 left-4 text-2xl animate-sparkle" style={{ animationDelay: '1s' }}>✨</div>
+        </div>
         {/* Header - Always visible */}
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full p-4 sm:p-6 text-left hover:bg-white/10 transition-colors focus:ring-2 focus:ring-white focus:ring-inset"
+          className="w-full p-4 sm:p-6 text-left hover:bg-white/10 transition-all duration-300 focus:ring-2 focus:ring-white focus:ring-inset relative z-10"
           aria-expanded={isExpanded}
           aria-controls="flip-config-content"
         >
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-lg sm:text-xl font-bold text-white drop-shadow-sm mb-1">
-                <span aria-hidden="true">⚙️ </span>Son&apos;s Control Panel
+              <h3 className="text-lg sm:text-xl font-bold text-white drop-shadow-lg mb-1 flex items-center gap-2">
+                <span className="animate-wiggle inline-block" aria-hidden="true">⚙️</span>
+                <span>Son&apos;s Control Panel</span>
               </h3>
-              <p className="text-white/95 text-sm drop-shadow-sm">
-                Control how many flips dad gets per day
+              <p className="text-white/95 text-sm drop-shadow-sm flex items-center gap-1">
+                <span>Control how many flips dad gets per day</span>
+                <span className="animate-bounce-gentle inline-block" role="img" aria-hidden="true">👑</span>
               </p>
             </div>
-            <span className="text-white text-xl sm:text-2xl" aria-hidden="true">
-              {isExpanded ? '▼' : '▶'}
+            <span className={`text-white text-xl sm:text-2xl transition-transform duration-300 ${isExpanded ? 'rotate-90' : ''}`} aria-hidden="true">
+              ▶
             </span>
           </div>
         </button>

@@ -12,6 +12,7 @@ import DadFlipButton from '@/components/DadFlipButton';
 import FlipConfigPanel from '@/components/FlipConfigPanel';
 import EmojiGuide from '@/components/EmojiGuide';
 import LogoutButton from '@/components/LogoutButton';
+import { AuraScoreSkeleton, ActivityFeedSkeleton, TrendsSkeleton } from '@/components/SkeletonLoader';
 
 export default function Home() {
   const [stats, setStats] = useState<AuraStats | null>(null);
@@ -67,20 +68,32 @@ export default function Home() {
       .subscribe();
 
     return () => {
+      channel.unsubscribe();
       supabase.removeChannel(channel);
     };
   }, [fetchAuraData]);
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4">
-        <div className="text-center">
-          <div className="text-5xl sm:text-6xl mb-4 animate-bounce" role="img" aria-label="Loading">🔥</div>
-          <div className="text-lg sm:text-xl font-semibold text-gray-700 dark:text-gray-300">
-            Loading Dad Aura...
+      <main className="min-h-screen pb-8 sm:pb-12">
+        <header className="bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 text-white py-4 sm:py-6 px-4 sm:px-6 shadow-lg">
+          <div className="max-w-6xl mx-auto flex items-start justify-between">
+            <div>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 sm:mb-2 drop-shadow-lg">
+                Dad Aura 🔥
+              </h1>
+              <p className="text-sm sm:text-base md:text-lg text-white/95 drop-shadow-sm">
+                Real-time dad performance tracking
+              </p>
+            </div>
           </div>
+        </header>
+        <div className="max-w-6xl mx-auto">
+          <AuraScoreSkeleton />
+          <TrendsSkeleton />
+          <ActivityFeedSkeleton />
         </div>
-      </div>
+      </main>
     );
   }
 
@@ -111,14 +124,31 @@ export default function Home() {
   return (
     <main className="min-h-screen pb-8 sm:pb-12">
       {/* Header */}
-      <header className="bg-gradient-to-r from-purple-600 to-blue-600 text-white py-4 sm:py-6 px-4 sm:px-6 shadow-lg">
-        <div className="max-w-6xl mx-auto flex items-start justify-between">
+      <header className="bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 text-white py-4 sm:py-6 px-4 sm:px-6 shadow-lg relative overflow-hidden">
+        {/* Animated background decorations */}
+        {/* eslint-disable-next-line react/no-unknown-property */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {/* eslint-disable-next-line react/no-unknown-property */}
+          <div className="absolute top-0 left-1/4 text-6xl opacity-20 animate-float delay-0">🔥</div>
+          {/* eslint-disable-next-line react/no-unknown-property */}
+          <div className="absolute top-0 right-1/4 text-5xl opacity-20 animate-float delay-1000">⭐</div>
+          {/* eslint-disable-next-line react/no-unknown-property */}
+          <div className="absolute bottom-0 left-1/3 text-4xl opacity-20 animate-float delay-2000">🎉</div>
+          {/* eslint-disable-next-line react/no-unknown-property */}
+          <div className="absolute bottom-0 right-1/3 text-5xl opacity-20 animate-float delay-1500">💪</div>
+        </div>
+        <div className="max-w-6xl mx-auto flex items-start justify-between relative z-10">
           <div>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 sm:mb-2 drop-shadow-sm">
-              Dad Aura <span role="img" aria-hidden="true">🔥</span>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 sm:mb-2 drop-shadow-lg flex items-center gap-2">
+              <span className="animate-bounce-gentle inline-block">Dad Aura</span>
+              <span className="inline-block animate-wiggle" role="img" aria-hidden="true">🔥</span>
+              {/* eslint-disable-next-line react/no-unknown-property */}
+              <span className="inline-block animate-sparkle delay-500" role="img" aria-hidden="true">✨</span>
             </h1>
-            <p className="text-sm sm:text-base md:text-lg text-white/95 drop-shadow-sm">
-              Real-time dad performance tracking
+            <p className="text-sm sm:text-base md:text-lg text-white/95 drop-shadow-sm flex items-center gap-2">
+              <span>Real-time dad performance tracking</span>
+              {/* eslint-disable-next-line react/no-unknown-property */}
+              <span className="animate-bounce-gentle inline-block delay-300" role="img" aria-hidden="true">👨‍👦</span>
             </p>
           </div>
           <LogoutButton />
@@ -153,7 +183,10 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="mt-8 sm:mt-12 text-center text-gray-700 dark:text-gray-300 text-xs sm:text-sm px-4">
-        <p>Use The Dad Tribunal above, or text emojis from your Apple Watch!</p>
+        <p className="flex items-center justify-center gap-2">
+          <span>Use The Dad Tribunal above, or text emojis from your Apple Watch!</span>
+          <span className="animate-bounce-gentle inline-block" role="img" aria-hidden="true">⌚</span>
+        </p>
       </footer>
     </main>
   );

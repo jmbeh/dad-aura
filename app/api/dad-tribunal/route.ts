@@ -1,8 +1,9 @@
 import { openai } from '@ai-sdk/openai';
 import { anthropic } from '@ai-sdk/anthropic';
 import { generateText } from 'ai';
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
+import { createRateLimitMiddleware } from '@/lib/rate-limiter';
 
 // Allow responses up to 60 seconds (need time for both LLM calls)
 export const maxDuration = 60;
@@ -104,7 +105,33 @@ async function checkSafety(content: string): Promise<{
   }
 }
 
+// Rate limit: 20 requests per 15 minutes (more restrictive for AI endpoints)
+const rateLimitMiddleware = createRateLimitMiddleware({
+  windowMs: 15 * 60 * 1000,
+  maxRequests: 20,
+});
+
 export async function POST(request: NextRequest) {
+  // Check rate limit
+  const rateLimitResult = rateLimitMiddleware(request);
+  if (rateLimitResult.error) {
+    return NextResponse.json(
+      { 
+        error: rateLimitResult.message,
+        resetTime: rateLimitResult.resetTime,
+      },
+      { 
+        status: 429,
+        headers: {
+          'Retry-After': Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000).toString(),
+          'X-RateLimit-Limit': '20',
+          'X-RateLimit-Remaining': '0',
+          'X-RateLimit-Reset': rateLimitResult.resetTime.toString(),
+        },
+      }
+    );
+  }
+
   try {
     const body = await request.json();
     
@@ -177,7 +204,11 @@ export async function POST(request: NextRequest) {
     // We need to format it for useChat's expected format
     return new Response(finalContent + safetyNote, {
       status: 200,
-      headers: { 'Content-Type': 'text/plain' },
+      headers: { 
+        'Content-Type': 'text/plain',
+        'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
+        'X-RateLimit-Reset': rateLimitResult.resetTime.toString(),
+      },
     });
     
   } catch (error) {
