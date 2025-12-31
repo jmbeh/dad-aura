@@ -29,6 +29,7 @@ export default function DadTribunal({ onVerdictSaved }: DadTribunalProps) {
   const [showSavedMessage, setShowSavedMessage] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Auto-resize textarea
   useEffect(() => {
@@ -37,6 +38,13 @@ export default function DadTribunal({ onVerdictSaved }: DadTribunalProps) {
       inputRef.current.style.height = `${Math.min(inputRef.current.scrollHeight, 120)}px`;
     }
   }, [input]);
+
+  // Auto-scroll to bottom when new messages arrive
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages, isLoading]);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -105,10 +113,11 @@ export default function DadTribunal({ onVerdictSaved }: DadTribunalProps) {
 
         if (saveResponse.ok) {
           setShowSavedMessage(true);
+          // Clear the saving indicator after showing success, but keep verdict and messages
           setTimeout(() => {
             setShowSavedMessage(false);
             setCurrentVerdict(null);
-            // Don't clear messages - keep chat history visible
+            // Messages persist - chat history remains visible until user clears it
           }, 3000);
           onVerdictSaved();
         } else {
@@ -157,21 +166,31 @@ export default function DadTribunal({ onVerdictSaved }: DadTribunalProps) {
             <span>🛡️</span>
             <span>All verdicts are reviewed for safety</span>
           </p>
-          {messages.length > 0 && (
-            <button
-              onClick={() => {
-                setMessages([]);
-                setInput('');
-                setError(null);
-                setCurrentVerdict(null);
-                setShowSavedMessage(false);
-              }}
-              className="mt-3 text-xs px-3 py-1.5 bg-amber-600/50 hover:bg-amber-600 text-white rounded-full transition-all duration-300 hover-lift flex items-center gap-1 mx-auto"
-            >
-              <span className="animate-wiggle inline-block">🔄</span>
-              <span>New Chat Session</span>
-            </button>
-          )}
+          <div className="flex items-center justify-center gap-2 mt-2">
+            {messages.length > 0 && (
+              <button
+                onClick={() => {
+                  if (confirm('Clear chat history? This will start a new session.')) {
+                    setMessages([]);
+                    setInput('');
+                    setError(null);
+                    setCurrentVerdict(null);
+                    setShowSavedMessage(false);
+                  }
+                }}
+                className="text-xs px-3 py-1.5 bg-amber-600/50 hover:bg-amber-600 text-white rounded-full transition-all duration-300 hover-lift flex items-center gap-1"
+                title="Clear chat and start a new session"
+              >
+                <span className="animate-wiggle inline-block">🔄</span>
+                <span>Clear Chat</span>
+              </button>
+            )}
+            {messages.length > 0 && (
+              <span className="text-xs text-amber-200/80">
+                {messages.length} {messages.length === 1 ? 'message' : 'messages'} in chat
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Chat Area */}
@@ -184,8 +203,8 @@ export default function DadTribunal({ onVerdictSaved }: DadTribunalProps) {
           )}
 
           {/* Messages - scrollable chat history */}
-          {messages.length > 0 && (
-            <div className="mb-4 space-y-4 max-h-[500px] sm:max-h-[600px] overflow-y-auto scroll-smooth">
+          {messages.length > 0 ? (
+            <div className="mb-4 space-y-4 max-h-[500px] sm:max-h-[600px] overflow-y-auto scroll-smooth bg-amber-950/20 rounded-lg p-3 sm:p-4 border border-amber-700/30">
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -219,6 +238,13 @@ export default function DadTribunal({ onVerdictSaved }: DadTribunalProps) {
                   </div>
                 </div>
               )}
+              {/* Scroll anchor */}
+              <div ref={messagesEndRef} />
+            </div>
+          ) : (
+            <div className="mb-4 text-center py-8 text-amber-200/60">
+              <p className="text-sm">Start a conversation with The Tribunal...</p>
+              <p className="text-xs mt-2">Your chat history will appear here</p>
             </div>
           )}
 
